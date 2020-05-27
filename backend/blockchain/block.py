@@ -2,6 +2,14 @@ import time
 from backend.util.crypto_hash import crypto_hash
 
 
+GENESIS_DATA = {
+    'timestamp': 1,
+    'last_hash': 'genesis_last_hash',
+    'hash': 'genesis_hash',
+    'data': []
+}
+
+
 class Block:
     """Unit of storage in blockchain"""
     def __init__(self, timestamp, last_hash, hash, data):
@@ -25,12 +33,18 @@ class Block:
         timestamp = time.time_ns()
         last_hash = last_block.hash
         block_hash = crypto_hash(timestamp, last_hash, data)
-        return Block(timestamp, block_hash, hash, data)
+        return Block(timestamp, last_hash, block_hash, data)
 
     @staticmethod
     def genesis():
         """Return the genesis block"""
-        return Block(1, 'genesis_last_hash', 'genesis_hash', [])
+        # return Block(
+        #     timestamp=GENESIS_DATA['timestamp'],
+        #     last_hash=GENESIS_DATA['last_hash'],
+        #     hash=GENESIS_DATA['hash'],
+        #     data=GENESIS_DATA['data']
+        # )
+        return Block(**GENESIS_DATA)
 
 
 def main():
